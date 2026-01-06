@@ -14,3 +14,5 @@
                        2) Using the HIP/Metal platform in this code should lead to a 5-18x speedup however, I'm facing some                                    installation issues at the current time.
                        3) GPU Acceleration can significantly boost processing times.
                        4) More efficient code
+
+-Note : To analyse different car-pyridine derivatives, first; it has to be built in Avogadro and then optimised or could be downloaded as a pdb from any research sources
