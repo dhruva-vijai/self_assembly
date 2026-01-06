@@ -1,0 +1,2 @@
+conda activate virtual_env   #libraries installed
+python modified.py
