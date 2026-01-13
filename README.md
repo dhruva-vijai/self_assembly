@@ -1,4 +1,4 @@
-# self_assembly
+# Simulating Shape-Assisted Self-Assembly 
 
 ## Problem Statement
 
@@ -13,6 +13,8 @@
 ## Problems Faced
 
 ## Improvements
+
+## File Structure
 
 ## Images/Videos 
 
