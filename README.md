@@ -1,4 +1,21 @@
 # self_assembly
+
+## Problem Statement
+
+## Background Information
+
+## Specifics
+
+## Necessary Libraries
+
+## Basic Setup
+
+## Problems Faced
+
+## Improvements
+
+## Images/Videos 
+
 -This project is a Python based MD simulation that describes shape-assisted self assembly of car-pyridine derivatives into 1D nano-fibers in an aqueous environment. 
 -The project is written in Python using OpenMM and OpenFF to characterise a carpyridine and understand shape-assisted self-assembly.
 
