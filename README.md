@@ -2,19 +2,58 @@
 
 ## Problem Statement
 
+Use Python to simulate the shape-assisted self-assembly of carpyridines into 1D fibers and 2D nanosheets in an aqueous environment. Then, use a machine-learning algorithm to analyse the relationship between the substituents in the carpyridine core and the quality and nature of stacking. 
+
 ## Background Information
+
+Carpyridines form 1D nanofibers via pi-pi stacking and H-bonding interactions in an aqueous environment. These electronic and structural factors are the primary factor in the inducement of stacking/formation of supramolecular structures; however, the local topography and curvature of the molecule are shape-based features that assist in the formation of supramolecular structures by acting as saddle-shaped rotational locks and limiting freedom in the resultant structure. Hydrogen-bridging interactions also play a major role in this process; thus, the choice of solvent and ambient conditions are extremely important to the ooutcome of self-assembly.
 
 ## Specifics
 
+1) __Collecting Structures__
+2) __Simulation__
+3) __Visualisation__
+
+
+
 ## Necessary Libraries
 
+1) OpenMM
+
+2) OpenFF
+
+3) RDKit
+
+4) NumPy
+
+5) SciPy
+
+6) MDTraj
+
 ## Basic Setup
+
+cd projects
+
+git clone 
+
+__**-Note :Change carp.pdb to structures/carp.pdb**__
+
+python modified.py
+
 
 ## Problems Faced
 
 ## Improvements
 
 ## File Structure
+
+### Version 1
+
+- simulation.py deals with creating the assembler+solvent topology and running the simulation. The visualisation of this is further done in VMD
+
+### Version 2
+
+
 
 ## Images/Videos 
 
