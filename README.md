@@ -86,5 +86,19 @@ __Load assembly.dcd and topology.pdb into VMD__
 
 ## Images/Videos 
 
-The following are more-so toy models with around 50 assemblers and 400 waters in a 10 nm box over "CHECK EXACT" nm
+1) The following is more-so a toy model with around 50 assemblers and 1000 waters in a 10 nm box :
+
+   a) Initial topology :
+
+<img width="896" height="717" alt="Screenshot 2026-01-17 at 5 50 16 PM" src="https://github.com/user-attachments/assets/3d3bb8b8-d54d-4c8e-baa5-ad29e30b56b4" />
+
+<img width="1244" height="811" alt="Screenshot 2026-01-17 at 5 49 42 PM" src="https://github.com/user-attachments/assets/2fa05678-7d15-4380-b652-dde84c1eedca" />
+
+   
+   b) After 3ns :
+
+  <img width="918" height="728" alt="Screenshot 2026-01-17 at 5 50 52 PM" src="https://github.com/user-attachments/assets/cec56411-80db-4b0e-84c0-c2e1514fe0fe" />
+
+<img width="491" height="666" alt="Screenshot 2026-01-17 at 5 51 22 PM" src="https://github.com/user-attachments/assets/e1e2c1ec-f613-47e9-8ae8-eba62e77837f" />
+
 
