@@ -50,7 +50,7 @@ git clone
 
 __**-Note :Change carp.pdb to structures/carp.pdb**__
 
-python modified.py
+python simulation.py
 
 __Load assembly.dcd and topology.pdb into VMD__
 
