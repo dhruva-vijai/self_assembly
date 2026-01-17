@@ -12,16 +12,26 @@ import time
 os.environ["OPENFF_FORCE_FIELD_PARALLEL"]="14"
 
 n_carp=50           
-n_water=50       
+n_water=1000      
 box_size=10.0       
 timestep=4.0       
 
-smiles="c12-c3c4c(c5cc(cc(-c6cccc(-c7c8c(c9cc(cc(-c(ccc1)n2)c9[nH]8)c1ccccc1)cc(c7)c1ccccc1)n6)c5[nH]4)c1ccccc1)cc(c3)c1ccccc1"
-
+smiles_dict={'2H-CAR-H':'c12c3c(-c4nc(-c5c6c(c7c(c(-c8cccc(-c9c(c1ccc9)[nH]3)n8)ccc7)[nH]6)ccc5)ccc4)ccc2',
+             '2H-CAR-C1':'c12c3c(-c4nc(-c5c6c(c7c(c(-c8cccc(-c9c(c1cc(c9)C)[nH]3)n8)cc(C)c7)[nH]6)cc(C)c5)ccc4)cc(c2)C',
+             '2H-CAR-C4':'c12c3c(-c4nc(-c5c6c(c7c(c(-c8cccc(-c9c(c1cc(c9)CCCC)[nH]3)n8)cc(CCCC)c7)[nH]6)cc(CCCC)c5)ccc4)cc(c2)CCCC',
+             '2H-CAR-C6':'c12c3c(-c4cccc(-c5c6c(c7cc(CCCCCC)cc(-c8cccc(-c9c(c1cc(c9)CCCCCC)[nH]3)n8)c7[nH]6)cc(CCCCCC)c5)n4)cc(CCCCCC)c2',
+             '2H-CAR-C8':'c12c3c(-c4nc(-c5c6c(c7c(c(-c8cccc(-c9c(c1cc(c9)CCCCCCCC)[nH]3)n8)cc(CCCCCCCC)c7)[nH]6)cc(CCCCCCCC)c5)ccc4)cc(c2)CCCCCCCC',
+             '2H-CAR-Ph':"c12-c3c4c(c5cc(cc(-c6cccc(-c7c8c(c9cc(cc(-c(ccc1)n2)c9[nH]8)c1ccccc1)cc(c7)c1ccccc1)n6)c5[nH]4)c1ccccc1)cc(c3)c1ccccc1",
+             '2H-CAR-Tol':'[C-]12=[CH+][CH-]=[CH+][C-](=[N-]2)[C+]2=[CH-][C+](=[CH-][C+]3=[C-]2N[C+]2=[C-]3[CH+]=[C-]([CH+][C-]2[C+]2=N[C+](=[CH-][CH+]=[CH-]2)[C-]2=[CH+][C-](=[CH+][C-]3=[C+]2N[C-]2=[C+]1[CH-]=[C+]([CH-]=[C+]32)[C-]1=[CH+][CH-]=[C+](C)[CH-]=[CH+]1)[C-]1=[CH+][CH-]=[C+](C)[CH-]=[CH+]1)[C-]1=[CH+][CH-]=[C+]([CH-]=[CH+]1)C)[C-]1=[CH+][CH-]=[C+](C)[CH-]=[CH+]1	',
+             '2H-CAR-tBu':'c12c3c(-c4nc(-c5c6c(c7c(c(-c8cccc(-c9c(c1cc(c9)C(C)(C)C)[nH]3)n8)cc(C(C)(C)C)c7)[nH]6)cc(C(C)(C)C)c5)ccc4)cc(c2)C(C)(C)C',
+             '2H-CAR-iPr':'c12c3c(-c4nc(-c5c6c(c7c(c(-c8cccc(-c9c(c1cc(c9)C(C)C)[nH]3)n8)cc(C(C)C)c7)[nH]6)cc(C(C)C)c5)ccc4)cc(c2)C(C)C	',
+             }
 print(f"{n_carp} assembler + {n_water} water in {box_size}nm box")
 
+type='2H-CAR-Ph'
+smiles=smiles_dict[type]
 
-carp_mol=Molecule.from_pdb_and_smiles('carpyridine.pdb', smiles,allow_undefined_stereo=True)
+carp_mol=Molecule.from_pdb_and_smiles(f'{type}.pdb', smiles,allow_undefined_stereo=True)
 carp_coords=to_openmm(carp_mol.conformers[0])
 
 water=Chem.AddHs(Chem.MolFromSmiles('O'))
@@ -33,6 +43,7 @@ def rotate():
     u=np.random.uniform(0, 1, 3)
     q=np.array([np.sqrt(1 - u[0]) * np.sin(2 * np.pi * u[1]),np.sqrt(1 - u[0]) * np.cos(2 * np.pi * u[1]),np.sqrt(u[0]) * np.sin(2 * np.pi * u[2]),np.sqrt(u[0]) * np.cos(2 * np.pi * u[2])])
     r=np.array([[1 - 2*q[1]**2 - 2*q[2]**2, 2*q[0]*q[1] - 2*q[3]*q[2], 2*q[0]*q[2] + 2*q[3]*q[1]],[2*q[0]*q[1] + 2*q[3]*q[2], 1 - 2*q[0]**2 - 2*q[2]**2, 2*q[1]*q[2] - 2*q[3]*q[0]],[2*q[0]*q[2] - 2*q[3]*q[1], 2*q[1]*q[2] + 2*q[3]*q[0], 1 - 2*q[0]**2 - 2*q[1]**2]])
+
     return r
 
 positions=[]
@@ -109,6 +120,7 @@ for force in system.getForces():
         force.setReactionFieldDielectric(78.3) 
 
 integrator=mm.LangevinMiddleIntegrator(300*unit.kelvin, 1/unit.picosecond, timestep*unit.femtoseconds)
+integrator.setFriction(0.5/unit.picosecond)
 platform=mm.Platform.getPlatformByName('CPU')
 properties={'Threads': '14'} 
 
@@ -120,20 +132,37 @@ simulation.context.setPeriodicBoxVectors([size_nm, 0, 0], [0, size_nm, 0], [0, 0
 print("minimising energy")
 simulation.minimizeEnergy(tolerance=1.0*unit.kilojoule_per_mole / unit.nanometer, maxIterations=2000)
 
-with open('topology.pdb', 'w') as f:
+with open(f'topology_{type}.pdb', 'w') as f:
     state=simulation.context.getState(getPositions=True)
     app.PDBFile.writeFile(simulation.topology, state.getPositions(), f)
 
 runs=1000
-run_ns=0.1
+run_ns=0.01
 steps=int((run_ns * 1000000) / timestep)
 
-direc="checkpoints"
+direc=f"checkpoints_{type}"
 if not os.path.exists(direc):
     os.makedirs(direc)
 
-simulation.reporters.append(app.DCDReporter('assembly.dcd', 50000))
-simulation.reporters.append(app.StateDataReporter('assembly.log', 50000, step=True, potentialEnergy=True, temperature=True, density=True))
+print("nvt")
+nvt_steps = 100000  
+simulation.step(nvt_steps)
+nvt_path = os.path.join(direc, 'nvt.chk')
+simulation.saveCheckpoint(nvt_path)
+
+print("npt")
+from openmm import MonteCarloBarostat
+barostat = MonteCarloBarostat(1.0 * unit.bar, 300 * unit.kelvin, 25)
+system.addForce(barostat)
+simulation.context.reinitialize(preserveState=True)
+npt_steps = 200000  
+simulation.step(npt_steps)
+npt_path = os.path.join(direc, 'npt.chk')
+simulation.saveCheckpoint(npt_path)
+print("equi over")
+
+simulation.reporters.append(app.DCDReporter(f'assembly_{type}.dcd', 25000))
+simulation.reporters.append(app.StateDataReporter(f'assembly_{type}.log', 25000, step=True, potentialEnergy=True, temperature=True, density=True))
 
 print(f"starting sim")
 start=time.time()
@@ -155,5 +184,5 @@ hours=seconds/3600
 mins=hours/60
 
 print(f"done")
-print(f"time : {int(total_hours)} hrs, {total_mins:.1f} mins")
+print(f"time : {int(hours)} hrs, {mins:.1f} mins")
 
