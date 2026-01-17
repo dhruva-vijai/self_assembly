@@ -6,7 +6,7 @@ Use Python to simulate the shape-assisted self-assembly of carpyridines into 1D 
 
 ## Background Information
 
-Carpyridines form 1D nanofibers via pi-pi stacking and H-bonding interactions in an aqueous environment. These electronic and structural factors are the primary factor in the inducement of stacking/formation of supramolecular structures; however, the local topography and curvature of the molecule are shape-based features that assist in the formation of supramolecular structures by acting as saddle-shaped rotational locks and limiting freedom in the resultant structure. Hydrogen-bridging interactions also play a major role in this process; thus, the choice of solvent and ambient conditions are extremely important to the ooutcome of self-assembly.
+Carpyridines form 1D nanofibers via pi-pi stacking and H-bonding interactions in an aqueous environment. These electronic and structural factors are the primary factor in the inducement of stacking/formation of supramolecular structures; however, the local topography and curvature of the molecule are shape-based features that assist in the formation of supramolecular structures by acting as saddle-shaped rotational locks and limiting freedom in the resultant structure. Hydrogen-bridging interactions also play a major role in this process; thus, the choice of solvent and ambient conditions are extremely important to the outcome of self-assembly.
 
 ## Specifics
 
